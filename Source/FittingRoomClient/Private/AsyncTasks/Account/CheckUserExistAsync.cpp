@@ -5,14 +5,14 @@
 #include "Utils/FittingRoomUtils.h"
 
 
-UCheckUserExistAsync* UCheckUserExistAsync::CheckUserExists(const FString& UserName)
+UCheckUserExistAsync* UCheckUserExistAsync::CheckUserExists(const FString& Email)
 {
 	UCheckUserExistAsync* Node = NewObject<UCheckUserExistAsync>();
-	Node->SendRequest(UserName);
+	Node->SendRequest(Email);
 	return Node;
 }
 
-void UCheckUserExistAsync::SendRequest(const FString& UserName)
+void UCheckUserExistAsync::SendRequest(const FString& Email)
 {
 	AddToRoot();
 
@@ -29,7 +29,7 @@ void UCheckUserExistAsync::SendRequest(const FString& UserName)
 
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	
-	FString Body = MakeRequestBody(UserName);
+	FString Body = MakeRequestBody(Email);
 	
 	Request->SetContentAsString(Body);
 
@@ -74,11 +74,11 @@ void UCheckUserExistAsync::OnHttpResponse(FHttpRequestPtr Request, FHttpResponse
 	RemoveFromRoot();
 }
 
-FString UCheckUserExistAsync::MakeRequestBody(const FString& UserName)
+FString UCheckUserExistAsync::MakeRequestBody(const FString& Email)
 {
 	TSharedPtr<FJsonObject> Body = MakeShareable(new FJsonObject);
 	
-	Body->SetStringField(TEXT("username"), UserName);
+	Body->SetStringField(TEXT("email"), Email);
 	
 	FString OutJsonData;
 	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutJsonData);

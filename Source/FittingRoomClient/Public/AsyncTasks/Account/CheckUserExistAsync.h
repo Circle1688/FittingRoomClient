@@ -21,7 +21,7 @@ class FITTINGROOMCLIENT_API UCheckUserExistAsync : public UBlueprintAsyncActionB
 public:
 	// 检查用户名是否存在
 	UFUNCTION(BlueprintCallable, Category = "Fitting Room|Account", meta = (BlueprintInternalUseOnly = "true", DisplayName = "Check User Exists"))
-	static UCheckUserExistAsync* CheckUserExists(const FString& UserName);
+	static UCheckUserExistAsync* CheckUserExists(const FString& Email);
 
 	// 成功
 	UPROPERTY(BlueprintAssignable)
@@ -33,12 +33,12 @@ public:
 
 private:
 	// 发送数据
-	void SendRequest(const FString& UserName);
+	void SendRequest(const FString& Email);
 
 	// 请求响应
 	void OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	// 构造请求体
-	static FString MakeRequestBody(const FString& UserName);
+	static FString MakeRequestBody(const FString& Email);
 
 };

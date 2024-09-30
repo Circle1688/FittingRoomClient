@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FittingRoomTypes.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "Http.h"
 #include "Dom/JsonObject.h"
@@ -21,7 +22,7 @@ class FITTINGROOMCLIENT_API URegisterAsync : public UBlueprintAsyncActionBase
 public:
 	// 用户注册
 	UFUNCTION(BlueprintCallable, Category = "Fitting Room|Account", meta = (BlueprintInternalUseOnly = "true", DisplayName = "Register user"))
-	static URegisterAsync* Register(const FString& UserName, const FString& Password, const FString& Mobile);
+	static URegisterAsync* Register(const FString& Email, const FString& Password, const FUserInfo& UserInfo);
 
 	// 成功
 	UPROPERTY(BlueprintAssignable)
@@ -33,11 +34,11 @@ public:
 
 private:
 	// 发送数据
-	void SendRequest(const FString& UserName, const FString& Password, const FString& Mobile);
+	void SendRequest(const FString& Email, const FString& Password, const FUserInfo& UserInfo);
 
 	// 请求响应
 	void OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	// 构造请求体
-	static FString MakeRequestBody(const FString& UserName, const FString& Password, const FString& Mobile);
+	static FString MakeRequestBody(const FString& Email, const FString& Password, const FUserInfo& UserInfo);
 };

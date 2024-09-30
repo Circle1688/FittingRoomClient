@@ -5,14 +5,14 @@
 #include "Utils/FittingRoomUtils.h"
 
 
-ULoginAsync* ULoginAsync::Login(const FString& UserName, const FString& Password)
+ULoginAsync* ULoginAsync::Login(const FString& Email, const FString& Password)
 {
 	ULoginAsync* Node = NewObject<ULoginAsync>();
-	Node->SendRequest(UserName, Password);
+	Node->SendRequest(Email, Password);
 	return Node;
 }
 
-void ULoginAsync::SendRequest(const FString& UserName, const FString& Password)
+void ULoginAsync::SendRequest(const FString& Email, const FString& Password)
 {
 	AddToRoot();
 
@@ -29,7 +29,7 @@ void ULoginAsync::SendRequest(const FString& UserName, const FString& Password)
 
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	
-	FString Body = MakeRequestBody(UserName, Password);
+	FString Body = MakeRequestBody(Email, Password);
 	
 	Request->SetContentAsString(Body);
 
@@ -77,11 +77,11 @@ void ULoginAsync::OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	RemoveFromRoot();
 }
 
-FString ULoginAsync::MakeRequestBody(const FString& UserName, const FString& Password)
+FString ULoginAsync::MakeRequestBody(const FString& Email, const FString& Password)
 {
 	TSharedPtr<FJsonObject> Body = MakeShareable(new FJsonObject);
 	
-	Body->SetStringField(TEXT("username"), UserName);
+	Body->SetStringField(TEXT("email"), Email);
 	Body->SetStringField(TEXT("password"), Password);
 	
 	FString OutJsonData;

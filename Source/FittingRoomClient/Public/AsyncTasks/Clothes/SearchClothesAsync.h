@@ -3,37 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FittingRoomTypes.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "Http.h"
 #include "Dom/JsonObject.h"
 #include "SearchClothesAsync.generated.h"
 
-USTRUCT(BlueprintType)
-struct FClothesInfoStruct
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Preview;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	float Price;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Brand;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Type;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Color;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Clothes Info")
-	FString Description;
-};
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FSearchClothesHttpDelegate, int32, Code, const TArray<FClothesInfoStruct>&, Results, const FString&, Message);
 

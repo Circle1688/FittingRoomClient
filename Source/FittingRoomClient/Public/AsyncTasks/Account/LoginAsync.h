@@ -21,7 +21,7 @@ class FITTINGROOMCLIENT_API ULoginAsync : public UBlueprintAsyncActionBase
 public:
 	// 用户登录
 	UFUNCTION(BlueprintCallable, Category = "Fitting Room|Account", meta = (BlueprintInternalUseOnly = "true", DisplayName = "User Login"))
-	static ULoginAsync* Login(const FString& UserName, const FString& Password);
+	static ULoginAsync* Login(const FString& Email, const FString& Password);
 
 	// 成功
 	UPROPERTY(BlueprintAssignable)
@@ -33,11 +33,11 @@ public:
 
 private:
 	// 发送数据
-	void SendRequest(const FString& UserName, const FString& Password);
+	void SendRequest(const FString& Email, const FString& Password);
 
 	// 请求响应
 	void OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	// 构造请求体
-	static FString MakeRequestBody(const FString& UserName, const FString& Password);
+	static FString MakeRequestBody(const FString& Email, const FString& Password);
 };

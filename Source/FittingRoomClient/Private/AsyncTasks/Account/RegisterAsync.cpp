@@ -5,14 +5,14 @@
 #include "Utils/FittingRoomUtils.h"
 
 
-URegisterAsync* URegisterAsync::Register(const FString& UserName, const FString& Password, const FString& Mobile)
+URegisterAsync* URegisterAsync::Register(const FString& Email, const FString& Password, const FUserInfo& UserInfo)
 {
 	URegisterAsync* Node = NewObject<URegisterAsync>();
-	Node->SendRequest(UserName, Password, Mobile);
+	Node->SendRequest(Email, Password, UserInfo);
 	return Node;
 }
 
-void URegisterAsync::SendRequest(const FString& UserName, const FString& Password, const FString& Mobile)
+void URegisterAsync::SendRequest(const FString& Email, const FString& Password, const FUserInfo& UserInfo)
 {
 	AddToRoot();
 
@@ -29,7 +29,7 @@ void URegisterAsync::SendRequest(const FString& UserName, const FString& Passwor
 
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	
-	FString Body = MakeRequestBody(UserName, Password, Mobile);
+	FString Body = MakeRequestBody(Email, Password, UserInfo);
 	
 	Request->SetContentAsString(Body);
 
@@ -75,13 +75,16 @@ void URegisterAsync::OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	RemoveFromRoot();
 }
 
-FString URegisterAsync::MakeRequestBody(const FString& UserName, const FString& Password, const FString& Mobile)
+FString URegisterAsync::MakeRequestBody(const FString& Email, const FString& Password, const FUserInfo& UserInfo)
 {
 	TSharedPtr<FJsonObject> Body = MakeShareable(new FJsonObject);
 	
-	Body->SetStringField(TEXT("username"), UserName);
+	Body->SetStringField(TEXT("email"), Email);
 	Body->SetStringField(TEXT("password"), Password);
-	Body->SetStringField(TEXT("mobile"), Mobile);
+	Body->SetStringField(TEXT("mobile"), UserInfo.Mobile);
+	Body->SetStringField(TEXT("username"), UserInfo.Username);
+	Body->SetNumberField(TEXT("birth"), UserInfo.Birth);
+	Body->SetNumberField(TEXT("ethnicity"), static_cast<int32>(UserInfo.Ethnicity));
 	
 	FString OutJsonData;
 	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutJsonData);

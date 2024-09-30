@@ -21,7 +21,7 @@ class FITTINGROOMCLIENT_API UResetPasswordAsync : public UBlueprintAsyncActionBa
 public:
 	// 通过用户名和手机号重置密码
 	UFUNCTION(BlueprintCallable, Category = "Fitting Room|Account", meta = (BlueprintInternalUseOnly = "true", DisplayName = "Reset Password"))
-	static UResetPasswordAsync* ResetPassword(const FString& UserName, const FString& NewPassword, const FString& Mobile);
+	static UResetPasswordAsync* ResetPassword(const FString& Email, const FString& NewPassword, const FString& Mobile);
 
 	// 成功
 	UPROPERTY(BlueprintAssignable)
@@ -33,11 +33,11 @@ public:
 
 private:
 	// 发送数据
-	void SendRequest(const FString& UserName, const FString& Password, const FString& Mobile);
+	void SendRequest(const FString& Email, const FString& Password, const FString& Mobile);
 
 	// 请求响应
 	void OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	// 构造请求体
-	static FString MakeRequestBody(const FString& UserName, const FString& Password, const FString& Mobile);
+	static FString MakeRequestBody(const FString& Email, const FString& Password, const FString& Mobile);
 };
